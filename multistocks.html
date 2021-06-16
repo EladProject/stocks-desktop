@@ -1,0 +1,43 @@
+<html>
+    <head>
+		<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.3/chosen.jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+		<script src="credentials.js"></script>
+		<script src="stocks-provider.js"></script>
+		<script src="stocks-provider-factory.js"></script>
+		<script src="stocks-provider-yahoo-finance.js"></script>
+		<script src="db.js"></script>
+		<script src="db-file.js"></script>
+		<script src="db-factory.js"></script>
+		<script src="multistocks.js"></script>
+		<script src="stocks-chart.js"></script>
+		<link href="multistocks.css" rel="stylesheet"/>
+		<script>if (window.module) module = window.module;</script>
+    </head>
+    <body>
+        <script>
+			$(document).ready(function(){
+			    init();
+			});
+        </script>
+		<div id="all-stocks">
+			<select id="all-stocks-list" multiple="multiple"></select>
+			<select id="time-range-select" onchange="timeRangeChanged()">
+				<option>1m</option>
+				<option>2m</option>
+				<option>6m</option>
+				<option>1y</option>
+				<option>2y</option>
+				<option>5y</option>
+				<option>10y</option>
+			</select>
+			<canvas id="stocks-chart">
+			</canvas>
+		</div>
+    </body>
+</html>
