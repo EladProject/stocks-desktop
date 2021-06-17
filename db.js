@@ -1,5 +1,5 @@
 class DB {
-    async init() {};
+    init() {};
 
     saveSelectedStocks(data) {
         throw "Call 'saveSelectedStocks' on abstract DB class";

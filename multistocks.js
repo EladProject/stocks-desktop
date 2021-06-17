@@ -6,8 +6,7 @@ var g_stockId2Name = {};
 
 async function init() {
 
-	await g_db.init();
-
+	g_db.init();
 	g_stocksProvider.getAllStocks(function(allStocks) {
 		setStocksList(allStocks).then(()=>{
 	    	g_db.loadSelectedStocks(setSelectedStocks);
@@ -29,11 +28,14 @@ async function init() {
 async function setStocksList(allStocks) {
 
 	return new Promise((resolve, reject) => {
-		var items = $.map(allStocks, function (stockData) {
+
+		stocksList = allStocks.filter((stockData) => {return stockData["type"] === "Common Stock"});
+
+		var items = stocksList.map(function (stockData) {
 				
 			obj = {
 				id: stockData["symbol"],
-				text: stockData["symbol"] + ": " + stockData["name"]
+				text: stockData["symbol"] + ":"+ stockData["exchange"] + ":" + stockData["type"] + " : " + stockData["name"]
 			};
 
 			// Save id to name mapping
@@ -74,7 +76,7 @@ async function setStocksList(allStocks) {
 				};
 
 				$('#all-stocks-list').select2({
-					ajax: {},
+					data: [],
 					dataAdapter: CustomData
 				});
 
@@ -90,7 +92,11 @@ function timeRangeChanged(evt) {
 
 function setSelectedStocks(selectedStockSymbols) {
 	g_selectedStocksSymbols = selectedStockSymbols;
-    $('#all-stocks-list').val(selectedStockSymbols);
+    
+	for (const selectedStock of selectedStockSymbols) {
+		var option = new Option(g_stockId2Name[selectedStock], selectedStock, true, true);
+		$('#all-stocks-list').append(option);
+	}
     $('#all-stocks-list').trigger('change');
 }
 

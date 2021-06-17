@@ -3,14 +3,14 @@ const selectedStocksFile = "selected_stocks.json";
 
 class DBFile extends DB {
 
-    async init() {
+    init() {
         try {
             if (fs.existsSync(selectedStocksFile)) {
                 console.log(`Found ${selectedStocksFile}`);
             }
             else {
                 console.log(`${selectedStocksFile} not found. Creating`);
-                fs.writeFileSync(selectedStocksFile, JSON.stringify([]));
+                fs.writeFileSync(selectedStocksFile, JSON.stringify({savedStocks: {set1: []}}));
             }
         } catch(err) {
             console.error(err)
@@ -18,11 +18,17 @@ class DBFile extends DB {
     };
 
     saveSelectedStocks(data) {
-        fs.writeFileSync(selectedStocksFile, JSON.stringify(data));
+        var fileData = {
+            savedStocks: {
+                set1: data
+            }
+        }
+        fs.writeFileSync(selectedStocksFile, JSON.stringify(fileData));
     };
 
     loadSelectedStocks(callback) {
-        const data = fs.readFileSync(selectedStocksFile);
-        callback(JSON.parse(data));
+        const fileData = fs.readFileSync(selectedStocksFile);
+        const data = JSON.parse(fileData);
+        callback(data.savedStocks.set1);
     }
 }
